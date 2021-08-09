@@ -1,0 +1,222 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="div1">
+        <h2 style="text-align: center">Welcome</h2>
+        <form [formGroup]="totalForm" (ngSubmit)="onSubmittotalForm(totalForm)" class="m-auto">
+          <div class="form-group">
+            <label for="total" class="sr-only">Total Questions</label>
+            <input
+              [class.is-invalid]="
+                totalForm.get('total')!.errors &&
+                totalForm.get('total')!.touched
+              "
+              formControlName="total"
+              class="form-control"
+              type="number"
+              min="5"
+              max="20"
+              step="1"
+              placeholder="Total Questions in each quiz"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('total')!.hasError('min')"
+            >
+              Total questions can minimum be 5.
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('total')!.hasError('max')"
+            >
+              Total questions can maximum be 20.
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('rangeMax')!.hasError('required')"
+            >
+              Total questions are required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="total" class="sr-only">Maximum range number</label>
+            <input
+              [class.is-invalid]="
+                totalForm.get('rangeMax')!.errors &&
+                totalForm.get('rangeMax')!.touched
+              "
+              formControlName="rangeMax"
+              class="form-control"
+              type="number"
+              min="10"
+              max="100"
+              step="1"
+              placeholder="Maximum range number"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('rangeMax')!.hasError('min')"
+            >
+              Min range is 0-10.
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('rangeMax')!.hasError('max')"
+            >
+              Max range is 0-100.
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="totalForm.get('rangeMax')!.hasError('required')"
+            >
+              Maximum number for quiz is required.
+            </div>
+          </div>
+
+          <button
+            class="btn btn-success mt-3 mb-3"
+            style="width: 50%"
+            [disabled]="!totalForm.valid"
+            type="submit"
+          >
+            Set Preference
+          </button>
+          <button
+            class="btn btn-danger mt-3 mb-3"
+            style="width: 50%"
+            [disabled]="!enableEditPreference"
+            type="button"
+            (click)="onEditPreference()"
+          >
+            Edit Preference
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div id="div2">
+        <table class="table">
+          <thead>
+            <tr class="table-dark">
+              <th>Expression</th>
+              <th>Your Result</th>
+              <th>Correct Result</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="allComputations!.length > 1">
+            <tr *ngFor="let r of allComputations">
+              <td [ngClass]="r.iscorrect ? 'table-success':'table-danger'">{{ r.expression }}</td>
+              <td [ngClass]="r.iscorrect ? 'table-success':'table-danger'">{{ r.result }}</td>
+              <td [ngClass]="r.iscorrect ? 'table-success':'table-danger'">{{ r.correctresult }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="div3">
+        <button
+          *ngIf="!showQuiz1"
+          class="btn btn-danger m-3"
+          (click)="startQuiz('1')"
+        >
+          Start Quiz 1
+        </button>
+        <br />
+        <div *ngIf="showQuiz1" class="btn-group m-3" role="group">
+          <button class="btn btn-warning m-1" (click)="restart('1')">
+            Restart Quiz 1
+          </button>
+          <button class="btn btn-primary m-1" (click)="currentStats('1')">
+            Current Stats Quiz 1
+          </button>
+        </div>
+        <ng-container *ngIf="!hideForm1 && showQuiz1">
+          <form
+            [formGroup]="quizForm1"
+            (ngSubmit)="onSubmit1(quizForm1)"
+            class="form-inline m-auto"
+          >
+            <h3>
+              <label
+                >Solve
+                <input type="text" [value]="exp1" readonly class="exp-style" />
+              </label>
+            </h3>
+            <div class="form-group">
+              <input
+                formControlName="result1"
+                class="form-control"
+                type="number"
+                tabindex="1"
+                placeholder="Result"
+              />
+            </div>
+            <button
+              class="btn btn-success"
+              tabindex="3"
+              [disabled]="!quizForm1.valid"
+              type="submit"
+            >
+              Next Question
+            </button>
+          </form>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div id="div4">
+        <button
+          *ngIf="!showQuiz2"
+          class="btn btn-danger m-3"
+          (click)="startQuiz('2')"
+        >
+          Start Quiz 2
+        </button>
+        <br />
+        <div *ngIf="showQuiz2" class="btn-group m-3" role="group">
+          <button class="btn btn-warning m-1" (click)="restart('2')">
+            Restart Quiz 2
+          </button>
+          <button class="btn btn-primary m-1" (click)="currentStats('2')">
+            Current Stats Quiz 2
+          </button>
+        </div>
+        <ng-container *ngIf="!hideForm2 && showQuiz2">
+          <form
+            [formGroup]="quizForm2"
+            (ngSubmit)="onSubmit2(quizForm2)"
+            class="form-inline m-auto"
+          >
+            <h3>
+              <label
+                >Solve
+                <input type="text" [value]="exp2" readonly class="exp-style" />
+              </label>
+            </h3>
+            <div class="form-group">
+              <input
+                formControlName="result2"
+                class="form-control"
+                type="number"
+                tabindex="2"
+                placeholder="Result"
+              />
+            </div>
+
+            <button
+              class="btn btn-success"
+              tabindex="3"
+              [disabled]="!quizForm2.valid"
+              type="submit"
+            >
+              Next Question
+            </button>
+          </form>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
