@@ -58,8 +58,8 @@ export class HomeComponent implements OnInit {
     this.toastr.info(`Total Questions : ${this.total}`, 'Preferences are');
     this.toastr.info(`Max Range Value : ${this.max}`, 'Max value');
   }
-  onEditPreference(): any{
-    if(!(this.showQuiz1 && this.showQuiz2)){
+  onEditPreference(): any {
+    if (!(this.showQuiz1 && this.showQuiz2)) {
       this.totalForm.enable();
       this.toastr.success('Preferences enabled for edit');
     } else {
@@ -68,18 +68,17 @@ export class HomeComponent implements OnInit {
   }
   generateRandomExpression(): any {
     try {
-    let n1 = Math.floor(Math.random() * this.max+1).toString();
-    let n2 = Math.floor(Math.random() * this.max+1).toString();
-    const o1 = Math.floor(Math.random() * (this.operators.length));
-    const ope = this.operators[o1];
-    if(ope == '-' && (+n1<+n2)){
-        [n1,n2] = [n2,n1]
-    }
-    else if(ope=='/' && n2=="0"){
-      n2 = (Math.floor(Math.random() * this.max+1) + (this.max)).toString();
-    }
-    const s = `${n1} ${ope} ${n2}`;
-    return s;
+      let n1 = Math.floor(Math.random() * this.max + 1).toString();
+      let n2 = Math.floor(Math.random() * this.max + 1).toString();
+      const o1 = Math.floor(Math.random() * this.operators.length);
+      const ope = this.operators[o1];
+      if (ope == '-' && +n1 < +n2) {
+        [n1, n2] = [n2, n1];
+      } else if (ope == '/' && n2 == '0') {
+        n2 = (Math.floor(Math.random() * this.max + 1) + this.max).toString();
+      }
+      const s = `${n1} ${ope} ${n2}`;
+      return s;
     } catch (error) {
       const s = `0 + ${this.max}`;
       return s;
@@ -92,10 +91,10 @@ export class HomeComponent implements OnInit {
       this.correctCounter1 += 1;
     }
     const obj = {
-        expression: this.exp1,
-        result: userEnteredResultIs,
-        correctresult: correctResIs,
-        iscorrect: (correctResIs == userEnteredResultIs)
+      expression: this.exp1,
+      result: userEnteredResultIs,
+      correctresult: correctResIs,
+      iscorrect: correctResIs == userEnteredResultIs,
     };
     this.allComputations.push(obj);
     this.exp1 = this.generateRandomExpression();
@@ -118,10 +117,10 @@ export class HomeComponent implements OnInit {
       this.correctCounter2 += 1;
     }
     const obj = {
-        expression: this.exp2,
-        result: userEnteredResultIs,
-        correctresult: correctResIs,
-        iscorrect: (correctResIs == userEnteredResultIs)
+      expression: this.exp2,
+      result: userEnteredResultIs,
+      correctresult: correctResIs,
+      iscorrect: correctResIs == userEnteredResultIs,
     };
     this.allComputations.push(obj);
     this.exp2 = this.generateRandomExpression();
@@ -149,16 +148,18 @@ export class HomeComponent implements OnInit {
       this.cuurentQues1 = 1;
       this.toastr.warning('Quiz 1 restarted', 'Progress Restarted');
     } else {
-      if(this.cuurentQues1>=this.total){
+      if (this.cuurentQues1 >= this.total) {
         this.hideForm2 = false;
         this.exp2 = this.generateRandomExpression();
         this.quizForm2.setValue({ result2: '' });
         this.correctCounter2 = 0;
         this.cuurentQues2 = 1;
         this.toastr.warning('Quiz 2 restarted', 'Progress Restarted');
-      }
-      else{
-      this.toastr.warning('Attempt is necessary for quiz 1 before starting quiz 2.', 'Please complete Quiz 1.');
+      } else {
+        this.toastr.warning(
+          'Attempt is necessary for quiz 1 before starting quiz 2.',
+          'Please complete Quiz 1.'
+        );
       }
     }
   }
@@ -185,16 +186,18 @@ export class HomeComponent implements OnInit {
       });
       this.showQuiz1 = true;
     } else {
-      if(this.cuurentQues1>=this.total){
+      if (this.cuurentQues1 >= this.total) {
         this.exp2 = this.generateRandomExpression();
-        
-      this.quizForm2 = this.fb.group({
-        result2: ['', [Validators.required]],
-      });
-      this.showQuiz2 = true;
-      }
-      else{
-      this.toastr.warning('Attempt is necessary for quiz 1 before starting quiz 2.', 'Please complete Quiz 1.');
+
+        this.quizForm2 = this.fb.group({
+          result2: ['', [Validators.required]],
+        });
+        this.showQuiz2 = true;
+      } else {
+        this.toastr.warning(
+          'Attempt is necessary for quiz 1 before starting quiz 2.',
+          'Please complete Quiz 1.'
+        );
       }
     }
   }
