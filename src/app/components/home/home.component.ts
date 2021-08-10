@@ -68,15 +68,15 @@ export class HomeComponent implements OnInit {
   }
   generateRandomExpression(): any {
     try {
-      let n1 = Math.floor(Math.random() * this.max+1).toString();
+    let n1 = Math.floor(Math.random() * this.max+1).toString();
     let n2 = Math.floor(Math.random() * this.max+1).toString();
     const o1 = Math.floor(Math.random() * (this.operators.length));
     const ope = this.operators[o1];
-    if(ope == '-' && (n1<n2)){
+    if(ope == '-' && (+n1<+n2)){
         [n1,n2] = [n2,n1]
     }
     else if(ope=='/' && n2=="0"){
-      n2 = (Math.floor(Math.random() * this.max+1) + (this.max)/2).toString();
+      n2 = (Math.floor(Math.random() * this.max+1) + (this.max)).toString();
     }
     const s = `${n1} ${ope} ${n2}`;
     return s;
@@ -84,7 +84,6 @@ export class HomeComponent implements OnInit {
       const s = `0 + ${this.max}`;
       return s;
     }
-    
   }
   onSubmit1(form1: FormGroup) {
     const correctResIs = eval(this.exp1).toFixed(2);
