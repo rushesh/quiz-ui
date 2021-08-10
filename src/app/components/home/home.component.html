@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <div id="div1">
-        <h2 style="text-align: center">Welcome</h2>
+        <h2 style="text-align: center; color: #ffffff">Welcome to quizy</h2>
         <form [formGroup]="totalForm" (ngSubmit)="onSubmittotalForm(totalForm)" class="m-auto">
           <div class="form-group">
             <label for="total" class="sr-only">Total Questions</label>
@@ -93,7 +93,7 @@
         </form>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <div id="div2">
         <table class="table">
           <thead>
@@ -115,7 +115,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <div id="div3">
         <button
           *ngIf="!showQuiz1"
@@ -166,7 +166,7 @@
         </ng-container>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <div id="div4">
         <button
           *ngIf="!showQuiz2"

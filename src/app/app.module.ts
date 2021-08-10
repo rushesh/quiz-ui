@@ -21,7 +21,14 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       closeButton: true,
-      disableTimeOut: true
+      timeOut: 4000,
+      progressAnimation: 'decreasing',
+      easing: 'ease-in',
+      progressBar: true,
+      countDuplicates: true,
+      resetTimeoutOnDuplicate: true,
+      includeTitleDuplicates: true,
+      preventDuplicates: true
     })
   ],
   providers: [],

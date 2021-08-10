@@ -67,12 +67,24 @@ export class HomeComponent implements OnInit {
     }
   }
   generateRandomExpression(): any {
-    const n1 = Math.floor(Math.random() * this.max+1).toString();
-    const n2 = Math.floor(Math.random() * this.max+1).toString();
+    try {
+      let n1 = Math.floor(Math.random() * this.max+1).toString();
+    let n2 = Math.floor(Math.random() * this.max+1).toString();
     const o1 = Math.floor(Math.random() * (this.operators.length));
     const ope = this.operators[o1];
+    if(ope == '-' && (n1<n2)){
+        [n1,n2] = [n2,n1]
+    }
+    else if(ope=='/' && n2=="0"){
+      n2 = (Math.floor(Math.random() * this.max+1) + (this.max)/2).toString();
+    }
     const s = `${n1} ${ope} ${n2}`;
     return s;
+    } catch (error) {
+      const s = `0 + ${this.max}`;
+      return s;
+    }
+    
   }
   onSubmit1(form1: FormGroup) {
     const correctResIs = eval(this.exp1).toFixed(2);
@@ -94,7 +106,7 @@ export class HomeComponent implements OnInit {
       this.hideForm1 = true;
       this.toastr.success(
         `Correct Ans : ${this.correctCounter1} out of ` + this.total.toString(),
-        'Current Score'
+        'Current Score Quiz 1'
       );
     } else {
       this.cuurentQues1 += 1;
@@ -120,7 +132,7 @@ export class HomeComponent implements OnInit {
       this.hideForm2 = true;
       this.toastr.success(
         `Correct Ans : ${this.correctCounter2} out of ` + this.total.toString(),
-        'Current Score'
+        'Current Score Quiz 2'
       );
       this.enableEditPreference = true;
     } else {
@@ -153,12 +165,12 @@ export class HomeComponent implements OnInit {
   }
   currentStats(formNo: any): any {
     if (formNo == '1') {
-      const msg = `Current Total Questions : ${this.cuurentQues1}, Current Correct Answered: ${this.correctCounter1}`;
-      this.toastr.info(msg, 'Current Stas Are');
+      const msg = `Current Total Questions: ${this.cuurentQues1}, Current Correct Answered: ${this.correctCounter1}`;
+      this.toastr.info(msg, 'Current Stas Quiz 1');
       console.log(this.allComputations);
     } else {
       const msg = `Current Total Questions : ${this.cuurentQues2}, Current Correct Answered: ${this.correctCounter2}`;
-      this.toastr.info(msg, 'Current Stas Are');
+      this.toastr.info(msg, 'Current Stas Quiz 2');
       console.log(this.allComputations);
     }
   }
